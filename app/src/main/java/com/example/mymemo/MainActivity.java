@@ -1,12 +1,20 @@
 package com.example.mymemo;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
+import android.icu.text.DateTimePatternGenerator;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -20,11 +28,24 @@ public class MainActivity extends AppCompatActivity {
     ListView memo_list;
     static memoAdapter adapter;
 
+    WindowManager display = getWindowManager();
+    DisplayMetrics displayMetrics = new DisplayMetrics();
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        int statusBarHeight = 0;
+        int resId = getResources().getIdentifier("status_bar_height", "dimen","android");
+        if(resId > 0) statusBarHeight = getResources().getDimensionPixelSize(resId);
+
+        int navBarHeight = 0;
+        int resId1 = getResources().getIdentifier("navigation_bar_height", "dimen","android");
+        if(resId1 > 0) navBarHeight = getResources().getDimensionPixelSize(resId1);
 
         write_btn = (Button) findViewById(R.id.write_btn);
         write_btn.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        Toast.makeText(this, statusBarHeight +" "+navBarHeight,Toast.LENGTH_LONG).show();
 
     }
 
@@ -101,4 +123,5 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
 }
